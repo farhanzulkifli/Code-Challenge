@@ -12,20 +12,22 @@ const provider: JsonRpcProvider = new ethers.providers.JsonRpcProvider(
   `https://bsc-dataseed.binance.org/`
 );
 const contract: Contract = new ethers.Contract(tokenAddress, abi, provider);
+let results: string[] = [];
 
-const getBalance = async (address: string): Promise<void> => {
-  try {
-    const getBalance: BigNumber = await contract.balanceOf(address);
-    console.log(address, ethers.utils.formatUnits(getBalance, 8));
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const runBalances = (): void => {
+const getBalances = async (): Promise<void> => {
   for (let i = 0; i < addresses.length; i++) {
-    getBalance(addresses[i]);
+    try {
+      const getBalance: BigNumber = await contract.balanceOf(addresses[i]);
+      const resultsString: string = `${addresses[i]} ${ethers.utils.formatUnits(
+        getBalance,
+        8
+      )}`;
+      results.push(resultsString); //stored in array for future use/reference
+      console.log(resultsString)
+    } catch (err) {
+      console.log(err);
+    }
   }
 };
 
-runBalances();
+getBalances()
