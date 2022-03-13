@@ -14,7 +14,7 @@ const provider: JsonRpcProvider = new ethers.providers.JsonRpcProvider(
 const contract: Contract = new ethers.Contract(tokenAddress, abi, provider);
 let results: string[] = [];
 
-const getBalances = async (): Promise<void> => {
+const retrieveHolders = async (): Promise<void> => {
   for (let i = 0; i < addresses.length; i++) {
     try {
       const getBalance: BigNumber = await contract.balanceOf(addresses[i]);
@@ -30,4 +30,4 @@ const getBalances = async (): Promise<void> => {
   }
 };
 
-getBalances()
+retrieveHolders()
